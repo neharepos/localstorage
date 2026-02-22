@@ -1,0 +1,17 @@
+import { writeFile } from "fs/promises";
+import path from "path";
+
+export async function saveImage(file) {
+  if (!file) return null;
+
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const uploadDir = path.join(process.cwd(), "public/uploads");
+
+  const filePath = path.join(uploadDir, file.name);
+
+  await writeFile(filePath, buffer);
+
+  return `/uploads/${file.name}`;
+}
